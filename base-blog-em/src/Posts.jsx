@@ -13,7 +13,14 @@ export function Posts() {
   // const data = [];
   const { data } = useQuery({
     queryKey: ["posts"],
+    queryFn: fetchPosts,
   }) // The return value of query fn that we're passing to useQuery
+
+  if (!data) {
+    return (
+      <div />
+    )
+  }
 
   return (
     <>
