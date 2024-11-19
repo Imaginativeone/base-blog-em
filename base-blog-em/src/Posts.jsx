@@ -11,7 +11,9 @@ export function Posts() {
 
   // replace with useQuery
   // const data = [];
-  const { data } = useQuery() // The return value of query fn that we're passing to useQuery
+  const { data } = useQuery({
+    queryKey: ["posts"],
+  }) // The return value of query fn that we're passing to useQuery
 
   return (
     <>
