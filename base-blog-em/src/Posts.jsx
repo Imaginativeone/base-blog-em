@@ -9,9 +9,7 @@ export function Posts() {
   const [currentPage, setCurrentPage] = useState(0);
   const [selectedPost, setSelectedPost] = useState(null);
 
-  // replace with useQuery
-  // const data = [];
-  const { data, isError, error, isLoading } = useQuery({
+  const { data, isError, error, isLoading } = useQuery({ // previously const data = []
     queryKey: ["posts"],
     queryFn: fetchPosts,
   }) // The return value of query fn that we're passing to useQuery
