@@ -22,7 +22,7 @@ export function Posts() {
     }
   }, [currentPage, queryClient])
 
-  const { data, isError, error, isLoading } = useQuery({
+  const { data, isError, error, isLoading, isFetching } = useQuery({
     // previously const data = []
     queryKey: ["posts", currentPage],
     // queryFn: fetchPosts,
@@ -39,6 +39,10 @@ export function Posts() {
   if (isLoading) {
     return <div>LOADING</div>;
   }
+
+  // if (isFetching) {
+  //   return <div>FETCHING</div>;
+  // }
 
   if (isError) {
     return (
