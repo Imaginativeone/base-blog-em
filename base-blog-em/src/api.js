@@ -3,7 +3,7 @@ export async function fetchPosts(pageNum = 1) {
     `https://jsonplaceholder.typicode.com/posts?_limit=10&_page=${pageNum}`
   );
 
-  throw new Error("new error - You cannot have this data.")
+  // throw new Error("new error - You cannot have this data.")
 
   return response.json();
 }
