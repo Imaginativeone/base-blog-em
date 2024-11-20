@@ -1,19 +1,22 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query";
 
 import { fetchPosts, deletePost, updatePost } from "./api";
 import { PostDetail } from "./PostDetail";
+
 const maxPostPage = 10;
 
 export function Posts() {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1); // 1 instead of 0
   const [selectedPost, setSelectedPost] = useState(null);
 
-  const { data, isError, error, isLoading } = useQuery({ // previously const data = []
-    queryKey: ["posts"],
-    queryFn: fetchPosts,
-    staleTime: 2000 // 2 seconds
-  }) // The return value of query fn that we're passing to useQuery
+  const { data, isError, error, isLoading } = useQuery({
+    // previously const data = []
+    queryKey: ["posts", currentPage],
+    // queryFn: fetchPosts,
+    queryFn: () => fetchPosts(currentPage),
+    staleTime: 2000, // 2 seconds
+  }); // The return value of query fn that we're passing to useQuery
 
   // if (!data) {
   //   return (
@@ -22,9 +25,7 @@ export function Posts() {
   // }
 
   if (isLoading) {
-    return (
-      <div>LOADING</div>
-    )
+    return <div>LOADING</div>;
   }
 
   if (isError) {
@@ -33,7 +34,7 @@ export function Posts() {
         <h3>Oops, something went wrong.</h3>
         <p>{error.toString()}</p>
       </>
-  )
+    );
   }
 
   return (
@@ -50,11 +51,22 @@ export function Posts() {
         ))}
       </ul>
       <div className="pages">
-        <button disabled onClick={() => {}}>
+        <button
+          disabled={currentPage <= 1}
+          onClick={() => {
+            setCurrentPage((previousValue) => previousValue - 1)
+          }}
+        >
           Previous page
         </button>
-        <span>Page {currentPage + 1}</span>
-        <button disabled onClick={() => {}}>
+        {/* <span>Page {currentPage + 1}</span> */}
+        <span>Page {currentPage + 0}</span>
+        <button
+          disabled={currentPage >= maxPostPage}
+          onClick={() => {
+            setCurrentPage((previousValue) => previousValue + 1)
+          }}
+        >
           Next page
         </button>
       </div>
