@@ -11,15 +11,30 @@ export function Posts() {
 
   // replace with useQuery
   // const data = [];
-  const { data } = useQuery({
+  const { data, isError, error, isLoading } = useQuery({
     queryKey: ["posts"],
     queryFn: fetchPosts,
   }) // The return value of query fn that we're passing to useQuery
 
-  if (!data) {
+  // if (!data) {
+  //   return (
+  //     <div />
+  //   )
+  // }
+
+  if (isLoading) {
     return (
-      <div />
+      <div>LOADING</div>
     )
+  }
+
+  if (isError) {
+    return (
+      <>
+        <h3>Oops, something went wrong.</h3>
+        <p>{error.toString()}</p>
+      </>
+  )
   }
 
   return (
