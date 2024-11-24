@@ -17,32 +17,39 @@ export function InfinitePeople() {
     },
   });
 
-  if (isFetching) { return (
-    <div className="loading">Fetching...</div>
-  ) }
-
-  // if (isLoading) { return (
-  //   <div className="loading">Loading...</div>
+  // if (isFetching) { return (
+  //   <div className="loading">Fetching...</div>
   // ) }
+
+  if (isLoading) { return (
+    <div className="loading">Loading...</div>
+  ) }
 
   if (isError) { return (
     <div className="loading">Error: { error.toString() }</div>
   ) }
 
   return (
-    <InfiniteScroll
-      loadMore={() => {
-        if (!isFetching) {
-          fetchNextPage();
-        }
-      }}
-      hasMore={hasNextPage}
-    >
-      {data.pages.map((pageData) => {
-        return pageData.results.map((person) => {
-          return <Person key={person.name} name={person.name} hairColor={person.hair_color} eyeColor={person.eye_color} />;
-        });
-      })}
-    </InfiniteScroll>
+    <>
+      {
+        isFetching && (
+          <div className="loading">Fetching...</div>
+        )
+      }
+      <InfiniteScroll
+        loadMore={() => {
+          if (!isFetching) {
+            fetchNextPage();
+          }
+        }}
+        hasMore={hasNextPage}
+      >
+        {data.pages.map((pageData) => {
+          return pageData.results.map((person) => {
+            return <Person key={person.name} name={person.name} hairColor={person.hair_color} eyeColor={person.eye_color} />;
+          });
+        })}
+      </InfiniteScroll>
+    </>
   );
 }
